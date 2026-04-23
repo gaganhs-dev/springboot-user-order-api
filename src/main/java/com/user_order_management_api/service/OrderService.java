@@ -7,6 +7,7 @@ import com.user_order_management_api.entity.User;
 import com.user_order_management_api.exception.ResourceNotFoundException;
 import com.user_order_management_api.repository.OrderRepository;
 import com.user_order_management_api.repository.UserRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +35,7 @@ public class OrderService {
     }
 
     // Get all orders from user with pagination
+    @Cacheable(value = "orders", key = "#userId + '-' + #page + '-' + #size ")
     public Page<OrderResponseDTO> getOrderOfUsers(Integer userId, int page, int size) {
         userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id : " + userId));

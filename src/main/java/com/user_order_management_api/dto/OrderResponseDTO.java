@@ -1,6 +1,8 @@
 package com.user_order_management_api.dto;
 
-public class OrderResponseDTO {
+import java.io.Serializable;
+
+public class OrderResponseDTO implements Serializable {
 
     private Integer id;
     private String productName;
