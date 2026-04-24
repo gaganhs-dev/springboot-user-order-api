@@ -37,6 +37,7 @@ public class OrderService {
     // Get all orders from user with pagination
     @Cacheable(value = "orders", key = "#userId + '-' + #page + '-' + #size ")
     public Page<OrderResponseDTO> getOrderOfUsers(Integer userId, int page, int size) {
+        System.out.println("Fetching from DataBase...");
         userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id : " + userId));
         Pageable pageable = PageRequest.of(page, size);
