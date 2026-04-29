@@ -7,6 +7,7 @@ import com.user_order_management_api.entity.User;
 import com.user_order_management_api.exception.ResourceNotFoundException;
 import com.user_order_management_api.repository.OrderRepository;
 import com.user_order_management_api.repository.UserRepository;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -59,6 +60,7 @@ public class OrderService {
     }
 
     // Update order
+    @CacheEvict(value = "orders", allEntries = true)
     public OrderResponseDTO updateOrder(Integer userId, Integer orderId, OrderRequestDTO orderRequestDTO) {
         userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -74,6 +76,7 @@ public class OrderService {
     }
 
     // Delete Order
+    @CacheEvict(value = "orders", allEntries = true)
     public String deleteOrder(Integer userId, Integer orderId) {
         userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(
